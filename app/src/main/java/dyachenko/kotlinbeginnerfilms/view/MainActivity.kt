@@ -1,8 +1,8 @@
-package dyachenko.kotlinbeginnerfilms
+package dyachenko.kotlinbeginnerfilms.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import dyachenko.kotlinbeginnerfilms.ui.main.MainFragment
+import androidx.appcompat.app.AppCompatActivity
+import dyachenko.kotlinbeginnerfilms.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,8 +11,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
-                    .commitNow()
+                .replace(R.id.container, MainFragment.newInstance())
+                .commitNow()
         }
     }
 }
