@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import dyachenko.kotlinbeginnerfilms.R
 import dyachenko.kotlinbeginnerfilms.databinding.MainFragmentBinding
 import dyachenko.kotlinbeginnerfilms.model.Film
 import dyachenko.kotlinbeginnerfilms.viewmodel.AppState
@@ -18,6 +19,7 @@ class MainFragment : Fragment() {
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: MainViewModel
+    private var filmData: Film? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,29 +38,27 @@ class MainFragment : Fragment() {
         }
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
         viewModel.getFilmFromLocalSource()
-    }
 
-    private fun setData(filmData: Film) {
-        val text = filmData.title + "\n" +
-                filmData.overview + "\n" +
-                filmData.poster_path + "\n" +
-                filmData.popularity.toString() + "\n" +
-                filmData.adult.toString()
-        binding.message.text = text
+        binding.tempMessageTextView.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.add(R.id.container, DetailsFragment.newInstance(filmData))?.addToBackStack(null)
+                ?.commit()
+        }
     }
 
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                val filmData = appState.filmData
+                binding.tempMessageTextView.text = getString(R.string.temp_message)
+                filmData = appState.filmData
                 binding.loadingLayout.visibility = View.GONE
-                setData(filmData)
                 Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
             }
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
             }
             is AppState.Error -> {
+                binding.tempMessageTextView.text = ""
                 binding.loadingLayout.visibility = View.GONE
                 Snackbar
                     .make(binding.mainView, "Error", Snackbar.LENGTH_INDEFINITE)
