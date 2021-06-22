@@ -19,11 +19,11 @@ class MainViewModel(
     private fun getDataFromLocalSource() {
         liveDataToObserve.value = AppState.Loading
         Thread {
-            sleep(3000)
+            sleep(1000)
             if (Calendar.getInstance().get(Calendar.SECOND) % 2 == 0) {
                 liveDataToObserve.postValue(AppState.Error(Exception()))
             } else {
-                liveDataToObserve.postValue(AppState.Success(repositoryImpl.getFilmFromLocalStoage()))
+                liveDataToObserve.postValue(AppState.Success(repositoryImpl.getFilmsFromLocalStorage()))
             }
         }.start()
     }
