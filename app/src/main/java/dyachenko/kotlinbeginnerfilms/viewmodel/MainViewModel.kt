@@ -19,8 +19,8 @@ class MainViewModel(
     private fun getDataFromLocalSource() {
         liveDataToObserve.value = AppState.Loading
         Thread {
-            sleep(1000)
-            if (Calendar.getInstance().get(Calendar.SECOND) % 2 == 0) {
+            sleep(SLEEP_MILLIS)
+            if (Calendar.getInstance().get(Calendar.SECOND) % DIVIDER == REMAINDER) {
                 liveDataToObserve.postValue(AppState.Error(Exception()))
             } else {
                 liveDataToObserve.postValue(AppState.Success(repositoryImpl.getFilmsFromLocalStorage()))
@@ -28,4 +28,9 @@ class MainViewModel(
         }.start()
     }
 
+    companion object {
+        private const val SLEEP_MILLIS = 1000L
+        private const val DIVIDER = 2
+        private const val REMAINDER = 0
+    }
 }

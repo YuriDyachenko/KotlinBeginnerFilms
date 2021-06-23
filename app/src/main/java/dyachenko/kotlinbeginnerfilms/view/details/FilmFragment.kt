@@ -44,9 +44,8 @@ class FilmFragment : Fragment() {
     }
 
     companion object {
-        const val ARG_FILM = "ARG_FILM"
+        private const val ARG_FILM = "ARG_FILM"
 
-        @JvmStatic
         fun newInstance(film: Film?) =
             FilmFragment().apply {
                 arguments = Bundle().apply {
