@@ -22,19 +22,15 @@ class FilmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initViews()
     }
 
     private fun initViews() {
-        arguments?.getParcelable<Film>(ARG_FILM)?.let {
-            val text = it.title + "\n" +
-                    it.id + "\n" +
-                    it.overview + "\n" +
-                    it.poster_path + "\n" +
-                    it.popularity.toString() + "\n" +
-                    it.adult.toString()
-            binding.filmDetailsTextView.text = text
+        arguments?.getParcelable<Film>(ARG_FILM)?.let { film ->
+            with(film) {
+                val text = "$title\n$id\n$overview\n$poster_path\n$popularity\n$adult"
+                binding.filmDetailsTextView.text = text
+            }
         }
     }
 

@@ -17,31 +17,26 @@ class FilmsAdapter(private var onItemViewClickListener: FilmsFragment.OnItemView
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.films_item, parent, false) as View
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
+        LayoutInflater.from(parent.context)
+            .inflate(R.layout.films_item, parent, false) as View
+    )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(films[position])
     }
 
-    override fun getItemCount(): Int {
-        return films.size
-    }
+    override fun getItemCount() = films.size
 
     fun removeListener() {
         onItemViewClickListener = null
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         fun bind(film: Film) {
-            itemView.findViewById<TextView>(R.id.films_item_text_view).text = film.title
-            itemView.setOnClickListener {
-                onItemViewClickListener?.onItemViewClick(film)
+            itemView.apply {
+                findViewById<TextView>(R.id.films_item_text_view).text = film.title
+                setOnClickListener { onItemViewClickListener?.onItemViewClick(film) }
             }
         }
     }
