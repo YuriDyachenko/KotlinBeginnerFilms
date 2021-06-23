@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Kotlin Beginner Films 2.0</string>
-    <string name="temp_message">there will be a list of films, click to go to details</string>
+    <string name="app_name">Kotlin Beginner Films 3.0</string>
+    <string name="error_msg">Error</string>
+    <string name="reload_msg">Reload</string>
 </resources>

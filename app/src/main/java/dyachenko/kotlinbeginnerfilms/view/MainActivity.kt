@@ -3,6 +3,7 @@ package dyachenko.kotlinbeginnerfilms.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dyachenko.kotlinbeginnerfilms.R
+import dyachenko.kotlinbeginnerfilms.view.main.FilmsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, FilmsFragment.newInstance())
                 .commitNow()
         }
     }
