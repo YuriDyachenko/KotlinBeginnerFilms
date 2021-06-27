@@ -67,7 +67,9 @@ class FilmsFragment : Fragment() {
             }
             is AppState.Error -> {
                 filmsLoadingLayout.hide()
-                filmsRootView.showSnackBar(R.string.error_msg, R.string.reload_msg, { getData() })
+                filmsRootView.showSnackBar(appState.error.message ?: getString(R.string.error_msg),
+                    getString(R.string.reload_msg),
+                    { getData() })
             }
         }
     }

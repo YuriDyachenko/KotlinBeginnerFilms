@@ -2,21 +2,22 @@ package dyachenko.kotlinbeginnerfilms.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dyachenko.kotlinbeginnerfilms.model.Repository
-import dyachenko.kotlinbeginnerfilms.model.RepositoryImpl
+import dyachenko.kotlinbeginnerfilms.model.FilmLoader
 
 class FilmsViewModel : ViewModel() {
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
-    private val repositoryImpl: Repository = RepositoryImpl()
 
     fun getLiveData() = liveDataToObserve
 
-    fun getFilmsFromLocalSource() = getDataFromLocalSource()
-
-    private fun getDataFromLocalSource() {
-        liveDataToObserve.value = AppState.Loading
+    fun getFilmsFromLocalSource() = with(liveDataToObserve) {
+        value = AppState.Loading
         Thread {
-            liveDataToObserve.postValue(AppState.Success(repositoryImpl.getFilmsFromLocalStorage()))
+            try {
+                postValue(AppState.Success(FilmLoader.loadFilms()))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                postValue(AppState.Error(e))
+            }
         }.start()
     }
 }
