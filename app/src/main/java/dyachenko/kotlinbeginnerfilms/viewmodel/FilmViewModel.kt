@@ -8,22 +8,23 @@ import dyachenko.kotlinbeginnerfilms.model.RepositoryImpl
 import java.lang.Thread.sleep
 import java.util.*
 
-class FilmsViewModel : ViewModel() {
+class FilmViewModel : ViewModel() {
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
     private val repositoryImpl: Repository = RepositoryImpl()
 
     fun getLiveData() = liveDataToObserve
 
-    fun getFilmsFromLocalSource() = getDataFromLocalSource()
+    fun getFilmFromServer(filmId: Int) = getDataFromServer(filmId)
 
-    private fun getDataFromLocalSource() {
+    private fun getDataFromServer(filmId: Int) {
         liveDataToObserve.value = AppState.Loading
         Thread {
             sleep(SLEEP_MILLIS)
             if (Calendar.getInstance().getSeconds() % DIVIDER == REMAINDER) {
                 liveDataToObserve.postValue(AppState.Error(Exception()))
             } else {
-                liveDataToObserve.postValue(AppState.Success(repositoryImpl.getFilmsFromLocalStorage()))
+                val data = repositoryImpl.getFilmFromServer(filmId)
+                liveDataToObserve.postValue(AppState.Success(listOf(data)))
             }
         }.start()
     }

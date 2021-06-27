@@ -3,10 +3,10 @@ package dyachenko.kotlinbeginnerfilms.view.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import dyachenko.kotlinbeginnerfilms.R
 import dyachenko.kotlinbeginnerfilms.model.Film
+import kotlinx.android.synthetic.main.films_item.view.*
 
 class FilmsAdapter(private var onItemViewClickListener: FilmsFragment.OnItemViewClickListener?) :
     RecyclerView.Adapter<FilmsAdapter.ViewHolder>() {
@@ -35,7 +35,7 @@ class FilmsAdapter(private var onItemViewClickListener: FilmsFragment.OnItemView
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(film: Film) {
             itemView.apply {
-                findViewById<TextView>(R.id.films_item_text_view).text = film.title
+                films_item_text_view.text = film.title
                 setOnClickListener { onItemViewClickListener?.onItemViewClick(film) }
             }
         }

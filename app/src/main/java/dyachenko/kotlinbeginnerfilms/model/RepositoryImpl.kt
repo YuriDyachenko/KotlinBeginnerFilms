@@ -1,21 +1,37 @@
 package dyachenko.kotlinbeginnerfilms.model
 
 class RepositoryImpl : Repository {
-    override fun getFilmFromServer() = defFilm()
+    override fun getFilmFromServer(id: Int): Film {
+        val list = defFilms()
+        list.forEach {
+            if (it.id.equals(id)) {
+                return it
+            }
+        }
+        return wrongFilm(id)
+    }
+
     override fun getFilmsFromLocalStorage() = defFilms()
 }
 
-private fun defFilm() = Film(
-    337_404,
-    "Круэлла",
-    "Лондон 70-х годов охвачен зарождающейся культурой панк-рока...",
-    "/hUfyYGP9Xf6cHF9y44JXJV3NxZM.jpg",
-    5_468.241,
+private fun wrongFilm(id: Int) = Film(
+    id,
+    "Неизвестный фильм",
+    "Запрошен фильм с id, которого нет в списке",
+    "",
+    0.0,
     false
 )
 
 private fun defFilms() = listOf(
-    defFilm(),
+    Film(
+        337_404,
+        "Круэлла",
+        "Лондон 70-х годов охвачен зарождающейся культурой панк-рока...",
+        "/hUfyYGP9Xf6cHF9y44JXJV3NxZM.jpg",
+        5_468.241,
+        false
+    ),
     Film(
         423_108,
         "Заклятие 3: По воле дьявола",

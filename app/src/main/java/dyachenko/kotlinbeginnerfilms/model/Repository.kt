@@ -1,6 +1,6 @@
 package dyachenko.kotlinbeginnerfilms.model
 
 interface Repository {
-    fun getFilmFromServer(): Film
+    fun getFilmFromServer(id: Int): Film
     fun getFilmsFromLocalStorage(): List<Film>
 }
