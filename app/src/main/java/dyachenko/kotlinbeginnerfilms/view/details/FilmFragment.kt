@@ -60,14 +60,13 @@ class FilmFragment : Fragment() {
             is AppState.Success -> {
                 filmLoadingLayout.hide()
                 setData(appState.films[0])
-                filmRootView.showSnackBar(R.string.success_msg)
             }
             is AppState.Loading -> {
                 filmLoadingLayout.show()
             }
             is AppState.Error -> {
                 filmLoadingLayout.hide()
-                filmRootView.showSnackBar(R.string.error_msg, R.string.reload_msg, { getData() })
+                filmRootView.showSnackBar(appState.error.message!!, getString(R.string.reload_msg), { getData() })
             }
         }
     }

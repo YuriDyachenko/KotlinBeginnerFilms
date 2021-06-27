@@ -1,27 +1,8 @@
 package dyachenko.kotlinbeginnerfilms.model
 
 class RepositoryImpl : Repository {
-    override fun getFilmFromServer(id: Int): Film {
-        val list = defFilms()
-        list.forEach {
-            if (it.id.equals(id)) {
-                return it
-            }
-        }
-        return wrongFilm(id)
-    }
-
     override fun getFilmsFromLocalStorage() = defFilms()
 }
-
-private fun wrongFilm(id: Int) = Film(
-    id,
-    "Неизвестный фильм",
-    "Запрошен фильм с id, которого нет в списке",
-    "",
-    0.0,
-    false
-)
 
 private fun defFilms() = listOf(
     Film(

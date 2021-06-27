@@ -29,7 +29,7 @@ class FilmsFragment : Fragment() {
         override fun onItemViewClick(film: Film) {
             activity?.supportFragmentManager?.apply {
                 beginTransaction()
-                    .add(R.id.container, FilmFragment.newInstance(film.id))
+                    .add(R.id.container, FilmFragment.newInstance(film.id!!))
                     .addToBackStack(null)
                     .commit()
             }
@@ -61,7 +61,6 @@ class FilmsFragment : Fragment() {
             is AppState.Success -> {
                 filmsLoadingLayout.hide()
                 adapter.setFilms(appState.films)
-                filmsRootView.showSnackBar(R.string.success_msg)
             }
             is AppState.Loading -> {
                 filmsLoadingLayout.show()
