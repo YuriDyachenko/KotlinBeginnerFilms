@@ -29,7 +29,7 @@ class FilmsFragment : Fragment() {
         override fun onItemViewClick(film: Film) {
             activity?.supportFragmentManager?.apply {
                 beginTransaction()
-                    .add(R.id.container, FilmFragment.newInstance(film))
+                    .add(R.id.container, FilmFragment.newInstance(film.id!!))
                     .addToBackStack(null)
                     .commit()
             }
@@ -48,26 +48,28 @@ class FilmsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.filmsRecyclerView.adapter = adapter
         val observer = Observer<AppState> { renderData(it) }
-        viewModel.apply {
-            getLiveData().observe(viewLifecycleOwner, observer)
-            getFilmFromLocalSource()
-        }
+        viewModel.getLiveData().observe(viewLifecycleOwner, observer)
+        getData()
+    }
+
+    private fun getData() {
+        viewModel.getFilmsFromLocalSource()
     }
 
     private fun renderData(appState: AppState) = with(binding) {
         when (appState) {
             is AppState.Success -> {
-                loadingLayout.hide()
+                filmsLoadingLayout.hide()
                 adapter.setFilms(appState.films)
-                filmsRootView.showSnackBar(R.string.success_msg)
             }
             is AppState.Loading -> {
-                loadingLayout.show()
+                filmsLoadingLayout.show()
             }
             is AppState.Error -> {
-                loadingLayout.hide()
-                filmsRootView.showSnackBar(R.string.error_msg, R.string.reload_msg,
-                    { viewModel.getFilmFromLocalSource() })
+                filmsLoadingLayout.hide()
+                filmsRootView.showSnackBar(appState.error.message ?: getString(R.string.error_msg),
+                    getString(R.string.reload_msg),
+                    { getData() })
             }
         }
     }

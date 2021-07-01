@@ -4,16 +4,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dyachenko.kotlinbeginnerfilms.model.FilmLoader
 
-class FilmsViewModel : ViewModel() {
+class FilmViewModel : ViewModel() {
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
 
     fun getLiveData() = liveDataToObserve
 
-    fun getFilmsFromLocalSource() = with(liveDataToObserve) {
+    fun getFilmFromServer(filmId: Int) = with(liveDataToObserve) {
         value = AppState.Loading
         Thread {
             try {
-                postValue(AppState.Success(FilmLoader.loadFilms()))
+                postValue(AppState.Success(listOf(FilmLoader.loadFilm(filmId))))
             } catch (e: Exception) {
                 e.printStackTrace()
                 postValue(AppState.Error(e))
