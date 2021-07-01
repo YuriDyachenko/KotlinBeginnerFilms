@@ -25,7 +25,7 @@ class FilmFragment : Fragment() {
     }
 
     private val filmId: Int by lazy {
-        arguments?.getInt(ARG_FILM_ID)!!
+        arguments?.getInt(ARG_FILM_ID)?: NO_ID
     }
 
     override fun onCreateView(
@@ -59,7 +59,7 @@ class FilmFragment : Fragment() {
         when (appState) {
             is AppState.Success -> {
                 filmLoadingLayout.hide()
-                setData(appState.films[0])
+                setData(appState.films.first())
             }
             is AppState.Loading -> {
                 filmLoadingLayout.show()
@@ -80,6 +80,7 @@ class FilmFragment : Fragment() {
 
     companion object {
         private const val ARG_FILM_ID = "ARG_FILM_ID"
+        private const val NO_ID = 0
 
         fun newInstance(filmId: Int) =
             FilmFragment().apply {
