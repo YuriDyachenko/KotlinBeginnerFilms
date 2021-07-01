@@ -9,7 +9,7 @@ class FilmsViewModel : ViewModel() {
 
     fun getLiveData() = liveDataToObserve
 
-    fun getFilmsFromLocalSource() = with(liveDataToObserve) {
+    fun getFilmsFromServer() = with(liveDataToObserve) {
         value = AppState.Loading
         Thread {
             try {

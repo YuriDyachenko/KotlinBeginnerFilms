@@ -20,6 +20,14 @@ fun View.hide() {
 
 fun View.showSnackBar(
     textId: Int,
+    length: Int = Snackbar.LENGTH_LONG
+) {
+    Snackbar.make(this, textId, length)
+        .show()
+}
+
+fun View.showSnackBar(
+    textId: Int,
     actionId: Int,
     action: (View) -> Unit,
     length: Int = Snackbar.LENGTH_INDEFINITE
