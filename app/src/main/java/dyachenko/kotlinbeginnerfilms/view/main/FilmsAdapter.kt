@@ -5,8 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import dyachenko.kotlinbeginnerfilms.R
+import dyachenko.kotlinbeginnerfilms.databinding.FilmsItemBinding
 import dyachenko.kotlinbeginnerfilms.model.Film
-import kotlinx.android.synthetic.main.films_item.view.*
+
 
 class FilmsAdapter(private var onItemViewClickListener: FilmsFragment.OnItemViewClickListener?) :
     RecyclerView.Adapter<FilmsAdapter.ViewHolder>() {
@@ -33,9 +34,11 @@ class FilmsAdapter(private var onItemViewClickListener: FilmsFragment.OnItemView
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val binding = FilmsItemBinding.bind(view)
+
         fun bind(film: Film) {
             itemView.apply {
-                films_item_text_view.text = film.title
+                binding.filmsItemTextView.text = film.title
                 setOnClickListener { onItemViewClickListener?.onItemViewClick(film) }
             }
         }
