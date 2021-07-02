@@ -37,6 +37,7 @@ class FilmFragment : Fragment() {
             intent?.let {
                 when (it.getStringExtra(LOAD_RESULT_EXTRA)) {
                     LOAD_RESULT_ERROR -> {
+                        binding.filmLoadingLayout.hide()
                         binding.filmRootView.showSnackBar(it.getStringExtra(
                             LOAD_RESULT_DESCRIPTION_EXTRA
                         ) ?: getString(R.string.error_msg),
@@ -44,6 +45,7 @@ class FilmFragment : Fragment() {
                             { startService(context) })
                     }
                     LOAD_RESULT_OK -> {
+                        binding.filmLoadingLayout.hide()
                         val film = it.getSerializableExtra(FILM_EXTRA) as Film
                         setData(film)
                     }
@@ -89,6 +91,7 @@ class FilmFragment : Fragment() {
 
     private fun startService(context: Context?) {
         context?.let {
+            binding.filmLoadingLayout.show()
             it.startService(Intent(it, FilmService::class.java).apply {
                 putExtra(FILM_ID_EXTRA, filmId)
             })
