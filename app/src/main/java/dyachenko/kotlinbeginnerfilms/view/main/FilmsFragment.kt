@@ -1,9 +1,5 @@
 package dyachenko.kotlinbeginnerfilms.view.main
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +11,6 @@ import dyachenko.kotlinbeginnerfilms.R
 import dyachenko.kotlinbeginnerfilms.databinding.FilmsFragmentBinding
 import dyachenko.kotlinbeginnerfilms.hide
 import dyachenko.kotlinbeginnerfilms.model.Film
-import dyachenko.kotlinbeginnerfilms.model.FilmLoader
 import dyachenko.kotlinbeginnerfilms.show
 import dyachenko.kotlinbeginnerfilms.showSnackBar
 import dyachenko.kotlinbeginnerfilms.view.details.FilmFragment
@@ -40,23 +35,6 @@ class FilmsFragment : Fragment() {
             }
         }
     })
-
-    private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            FilmLoader.changeLang()
-            getData()
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        context?.registerReceiver(receiver, IntentFilter(Intent.ACTION_LOCALE_CHANGED))
-    }
-
-    override fun onDestroy() {
-        context?.unregisterReceiver(receiver)
-        super.onDestroy()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
