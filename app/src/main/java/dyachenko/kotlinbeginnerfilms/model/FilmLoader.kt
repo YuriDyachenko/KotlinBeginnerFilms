@@ -12,6 +12,7 @@ import javax.net.ssl.HttpsURLConnection
 import kotlin.math.min
 
 object FilmLoader {
+    const val IMAGE_SITE = "https://image.tmdb.org/t/p/w500"
     private const val SITE = "https://api.themoviedb.org/3/movie/"
     private const val API_KEY = "9c8d9086c4cce7dfcd52f5455412fa56"
     private const val GET_METHOD = "GET"
