@@ -16,8 +16,26 @@ class RemoteDataSource {
         .build()
         .create(FilmAPI::class.java)
 
+    private val pageApi = Retrofit.Builder()
+        .baseUrl(SITE)
+        .addConverterFactory(
+            GsonConverterFactory.create(
+                GsonBuilder().setLenient().create()
+            )
+        )
+        .build()
+        .create(PageAPI::class.java)
+
     fun getFilm(id: Int, callback: Callback<Film>) {
         filmApi.getFilm(id, API_KEY, RU_LANG).enqueue(callback)
+    }
+
+    fun getFirstPage(callback: Callback<PageDTO>) {
+        pageApi.getFirstPage(API_KEY, RU_LANG).enqueue(callback)
+    }
+
+    fun getNestPage(page: Int, callback: Callback<PageDTO>) {
+        pageApi.getNextPage(API_KEY, RU_LANG, page).enqueue(callback)
     }
 
     companion object {

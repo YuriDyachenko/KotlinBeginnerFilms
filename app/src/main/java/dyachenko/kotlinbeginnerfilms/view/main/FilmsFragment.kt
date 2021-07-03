@@ -13,6 +13,7 @@ import dyachenko.kotlinbeginnerfilms.hide
 import dyachenko.kotlinbeginnerfilms.model.Film
 import dyachenko.kotlinbeginnerfilms.show
 import dyachenko.kotlinbeginnerfilms.showSnackBar
+import dyachenko.kotlinbeginnerfilms.view.ResourceProvider
 import dyachenko.kotlinbeginnerfilms.view.details.FilmFragment
 import dyachenko.kotlinbeginnerfilms.viewmodel.AppState
 import dyachenko.kotlinbeginnerfilms.viewmodel.FilmsViewModel
@@ -48,6 +49,7 @@ class FilmsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.filmsRecyclerView.adapter = adapter
         val observer = Observer<AppState> { renderData(it) }
+        viewModel.resourceProvider = ResourceProvider(requireContext())
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
         getData()
     }
