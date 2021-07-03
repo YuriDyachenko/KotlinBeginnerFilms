@@ -15,6 +15,7 @@ import dyachenko.kotlinbeginnerfilms.model.Film
 import dyachenko.kotlinbeginnerfilms.model.FilmLoader
 import dyachenko.kotlinbeginnerfilms.show
 import dyachenko.kotlinbeginnerfilms.showSnackBar
+import dyachenko.kotlinbeginnerfilms.view.ResourceProvider
 import dyachenko.kotlinbeginnerfilms.viewmodel.AppState
 import dyachenko.kotlinbeginnerfilms.viewmodel.FilmViewModel
 
@@ -41,6 +42,7 @@ class FilmFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val observer = Observer<AppState> { renderData(it) }
+        viewModel.resourceProvider = ResourceProvider(requireContext())
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
         getData()
     }
