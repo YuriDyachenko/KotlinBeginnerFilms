@@ -24,6 +24,9 @@ class FilmsViewModel : ViewModel() {
             override fun onResponse(call: Call<PageDTO>, response: Response<PageDTO>) {
                 val page = response.body()
                 if (response.isSuccessful && page != null) {
+                    if (pageNumber == FIRST_PAGE) {
+                        list.clear()
+                    }
                     list.addAll(page.results.toList())
                     val pagesToRead = min(page.total_pages ?: FIRST_PAGE, MAX_PAGE)
                     if (pageNumber < pagesToRead) {
