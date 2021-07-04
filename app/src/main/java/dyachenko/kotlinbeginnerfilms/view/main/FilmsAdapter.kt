@@ -4,9 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import dyachenko.kotlinbeginnerfilms.R
 import dyachenko.kotlinbeginnerfilms.databinding.FilmsItemBinding
 import dyachenko.kotlinbeginnerfilms.model.Film
+import dyachenko.kotlinbeginnerfilms.model.RemoteDataSource.Companion.IMAGE_SITE
 
 
 class FilmsAdapter(private var onItemViewClickListener: FilmsFragment.OnItemViewClickListener?) :
@@ -36,9 +38,15 @@ class FilmsAdapter(private var onItemViewClickListener: FilmsFragment.OnItemView
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = FilmsItemBinding.bind(view)
 
-        fun bind(film: Film) {
+        fun bind(film: Film) = with(binding) {
             itemView.apply {
-                binding.filmsItemTextView.text = film.title
+                filmsItemTextView.text = film.title
+
+                Picasso
+                    .get()
+                    .load("${IMAGE_SITE}${film.poster_path}")
+                    .into(filmsItemImageView)
+
                 setOnClickListener { onItemViewClickListener?.onItemViewClick(film) }
             }
         }
