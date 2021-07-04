@@ -34,11 +34,14 @@ class RemoteDataSource {
         pageApi.getFirstPage(API_KEY, RU_LANG).enqueue(callback)
     }
 
-    fun getNestPage(page: Int, callback: Callback<PageDTO>) {
+    fun getNextPage(page: Int, callback: Callback<PageDTO>) {
         pageApi.getNextPage(API_KEY, RU_LANG, page).enqueue(callback)
     }
 
     companion object {
+        const val FIRST_PAGE = 1
+        const val MAX_PAGE = 5
+        const val IMAGE_SITE = "https://image.tmdb.org/t/p/w500"
         private const val SITE = "https://api.themoviedb.org/"
         private const val API_KEY = "9c8d9086c4cce7dfcd52f5455412fa56"
         private const val RU_LANG = "ru-RU"

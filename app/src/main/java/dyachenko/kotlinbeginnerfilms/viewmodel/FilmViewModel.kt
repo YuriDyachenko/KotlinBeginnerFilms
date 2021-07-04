@@ -26,10 +26,7 @@ class FilmViewModel : ViewModel() {
 
         override fun onFailure(call: Call<Film>, t: Throwable) {
             liveDataToObserve.value = AppState.Error(
-                Throwable(
-                    t.message
-                        ?: getString(R.string.error_request_msg)
-                )
+                Throwable(t.message ?: getString(R.string.error_request_msg))
             )
         }
     }

@@ -12,7 +12,7 @@ import dyachenko.kotlinbeginnerfilms.R
 import dyachenko.kotlinbeginnerfilms.databinding.FilmFragmentBinding
 import dyachenko.kotlinbeginnerfilms.hide
 import dyachenko.kotlinbeginnerfilms.model.Film
-import dyachenko.kotlinbeginnerfilms.model.FilmLoader
+import dyachenko.kotlinbeginnerfilms.model.RemoteDataSource.Companion.IMAGE_SITE
 import dyachenko.kotlinbeginnerfilms.show
 import dyachenko.kotlinbeginnerfilms.showSnackBar
 import dyachenko.kotlinbeginnerfilms.view.ResourceProvider
@@ -57,7 +57,7 @@ class FilmFragment : Fragment() {
             filmDetailsTextView.text = text
             Picasso
                 .get()
-                .load("${FilmLoader.IMAGE_SITE}$poster_path")
+                .load("${IMAGE_SITE}$poster_path")
                 .into(filmDetailsImageView)
         }
     }

@@ -8,7 +8,7 @@ import com.squareup.picasso.Picasso
 import dyachenko.kotlinbeginnerfilms.R
 import dyachenko.kotlinbeginnerfilms.databinding.FilmsItemBinding
 import dyachenko.kotlinbeginnerfilms.model.Film
-import dyachenko.kotlinbeginnerfilms.model.FilmLoader
+import dyachenko.kotlinbeginnerfilms.model.RemoteDataSource.Companion.IMAGE_SITE
 
 
 class FilmsAdapter(private var onItemViewClickListener: FilmsFragment.OnItemViewClickListener?) :
@@ -44,7 +44,7 @@ class FilmsAdapter(private var onItemViewClickListener: FilmsFragment.OnItemView
 
                 Picasso
                     .get()
-                    .load("${FilmLoader.IMAGE_SITE}${film.poster_path}")
+                    .load("${IMAGE_SITE}${film.poster_path}")
                     .into(filmsItemImageView)
 
                 setOnClickListener { onItemViewClickListener?.onItemViewClick(film) }
