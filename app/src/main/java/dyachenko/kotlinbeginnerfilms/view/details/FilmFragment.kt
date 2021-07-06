@@ -6,13 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
-import dyachenko.kotlinbeginnerfilms.R
+import dyachenko.kotlinbeginnerfilms.*
 import dyachenko.kotlinbeginnerfilms.databinding.FilmFragmentBinding
-import dyachenko.kotlinbeginnerfilms.hide
 import dyachenko.kotlinbeginnerfilms.model.Film
 import dyachenko.kotlinbeginnerfilms.model.RemoteDataSource.Companion.IMAGE_SITE
-import dyachenko.kotlinbeginnerfilms.show
-import dyachenko.kotlinbeginnerfilms.showSnackBar
 import dyachenko.kotlinbeginnerfilms.view.ResourceProvider
 import dyachenko.kotlinbeginnerfilms.viewmodel.AppState
 import dyachenko.kotlinbeginnerfilms.viewmodel.FilmViewModel
@@ -58,6 +55,7 @@ class FilmFragment : Fragment() {
                 .load("${IMAGE_SITE}$poster_path")
                 .into(filmDetailsImageView)
         }
+        viewModel.saveFilmToDB(film)
     }
 
     private fun renderData(appState: AppState?) = with(binding) {
@@ -75,6 +73,8 @@ class FilmFragment : Fragment() {
                     getString(R.string.reload_msg),
                     { getData() })
             }
+            is AppState.SuccessHistory -> {
+            }
         }
     }
 
@@ -89,7 +89,8 @@ class FilmFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.findItem(R.id.action_settings).isVisible = false
+        menu.hideItem(R.id.action_settings)
+        menu.hideItem(R.id.action_history)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

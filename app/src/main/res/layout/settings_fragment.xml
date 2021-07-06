@@ -15,7 +15,7 @@
         android:layout_margin="5dp"
         android:background="@color/purple_500"
         android:padding="10dp"
-        android:text="@string/settings_text"
+        android:text="@string/settings_title"
         android:textColor="@color/white"
         android:textSize="24sp" />
 
@@ -25,7 +25,7 @@
         android:layout_margin="5dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:text="@string/list_type_text"
+        android:text="@string/list_type_title"
         android:textColor="@color/black"
         android:textSize="24sp" />
 

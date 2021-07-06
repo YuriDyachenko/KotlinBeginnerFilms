@@ -16,6 +16,7 @@ import dyachenko.kotlinbeginnerfilms.show
 import dyachenko.kotlinbeginnerfilms.showSnackBar
 import dyachenko.kotlinbeginnerfilms.view.ResourceProvider
 import dyachenko.kotlinbeginnerfilms.view.details.FilmFragment
+import dyachenko.kotlinbeginnerfilms.view.history.HistoryFragment
 import dyachenko.kotlinbeginnerfilms.view.settings.Settings
 import dyachenko.kotlinbeginnerfilms.view.settings.SettingsFragment
 import dyachenko.kotlinbeginnerfilms.viewmodel.AppState
@@ -98,6 +99,8 @@ class FilmsFragment : Fragment() {
                     getString(R.string.reload_msg),
                     { getData() })
             }
+            is AppState.SuccessHistory -> {
+            }
         }
     }
 
@@ -128,6 +131,17 @@ class FilmsFragment : Fragment() {
                     it.supportFragmentManager.apply {
                         beginTransaction()
                             .add(R.id.container, SettingsFragment.newInstance(onListTypeChanging))
+                            .addToBackStack(null)
+                            .commit()
+                    }
+                }
+                true
+            }
+            R.id.action_history -> {
+                activity?.let {
+                    it.supportFragmentManager.apply {
+                        beginTransaction()
+                            .add(R.id.container, HistoryFragment.newInstance())
                             .addToBackStack(null)
                             .commit()
                     }
