@@ -20,7 +20,7 @@ class FilmsViewModel : ViewModel() {
     private val list: MutableList<Film> = mutableListOf()
 
     fun getPageFromServer(pageNumber: Int) {
-        val callback = object : Callback<PageDTO> {
+        val callbackForGetPage = object : Callback<PageDTO> {
             override fun onResponse(call: Call<PageDTO>, response: Response<PageDTO>) {
                 val page = response.body()
                 if (response.isSuccessful && page != null) {
@@ -47,9 +47,9 @@ class FilmsViewModel : ViewModel() {
             }
         }
         if (pageNumber == FIRST_PAGE) {
-            RemoteDataSource().getFirstPage(callback)
+            RemoteDataSource().getFirstPage(callbackForGetPage)
         } else {
-            RemoteDataSource().getNextPage(pageNumber, callback)
+            RemoteDataSource().getNextPage(pageNumber, callbackForGetPage)
         }
     }
 

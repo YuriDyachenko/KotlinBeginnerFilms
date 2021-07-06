@@ -6,14 +6,11 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import dyachenko.kotlinbeginnerfilms.R
+import dyachenko.kotlinbeginnerfilms.*
 import dyachenko.kotlinbeginnerfilms.databinding.FilmsFragmentBinding
-import dyachenko.kotlinbeginnerfilms.hide
 import dyachenko.kotlinbeginnerfilms.model.Film
 import dyachenko.kotlinbeginnerfilms.model.FilmsListType
 import dyachenko.kotlinbeginnerfilms.model.FilmsListTypeChanging
-import dyachenko.kotlinbeginnerfilms.show
-import dyachenko.kotlinbeginnerfilms.showSnackBar
 import dyachenko.kotlinbeginnerfilms.view.ResourceProvider
 import dyachenko.kotlinbeginnerfilms.view.details.FilmFragment
 import dyachenko.kotlinbeginnerfilms.view.history.HistoryFragment
@@ -99,7 +96,7 @@ class FilmsFragment : Fragment() {
                     getString(R.string.reload_msg),
                     { getData() })
             }
-            is AppState.SuccessHistory -> {
+            else -> {
             }
         }
     }
@@ -127,25 +124,17 @@ class FilmsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
-                activity?.let {
-                    it.supportFragmentManager.apply {
-                        beginTransaction()
-                            .add(R.id.container, SettingsFragment.newInstance(onListTypeChanging))
-                            .addToBackStack(null)
-                            .commit()
-                    }
-                }
+                activity?.supportFragmentManager?.addFragmentWithBackStack(
+                    SettingsFragment.newInstance(
+                        onListTypeChanging
+                    )
+                )
                 true
             }
             R.id.action_history -> {
-                activity?.let {
-                    it.supportFragmentManager.apply {
-                        beginTransaction()
-                            .add(R.id.container, HistoryFragment.newInstance())
-                            .addToBackStack(null)
-                            .commit()
-                    }
-                }
+                activity?.supportFragmentManager?.addFragmentWithBackStack(
+                    HistoryFragment.newInstance()
+                )
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/history_root_view"
+    android:id="@+id/notes_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -20,12 +20,12 @@
             android:layout_margin="5dp"
             android:background="@color/purple_500"
             android:padding="10dp"
-            android:text="@string/history_title"
+            android:text="@string/notes_title"
             android:textColor="@color/white"
             android:textSize="24sp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/history_recycler_view"
+            android:id="@+id/notes_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
@@ -34,7 +34,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <FrameLayout
-        android:id="@+id/history_loading_layout"
+        android:id="@+id/notes_loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"

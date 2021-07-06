@@ -51,6 +51,6 @@ class RemoteDataSource {
         const val TYPE_NOW_PLAYING = "now_playing"
         const val TYPE_UPCOMING = "upcoming"
         private const val SITE = "https://api.themoviedb.org/"
-        private const val RU_LANG = "ru-RU"
+        private const val RU_LANG = "ru"
     }
 }

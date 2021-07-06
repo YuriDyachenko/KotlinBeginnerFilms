@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dyachenko.kotlinbeginnerfilms.R
 import dyachenko.kotlinbeginnerfilms.app.App.Companion.getHistoryDao
+import dyachenko.kotlinbeginnerfilms.app.App.Companion.getNoteDao
 import dyachenko.kotlinbeginnerfilms.model.Film
 import dyachenko.kotlinbeginnerfilms.model.RemoteDataSource
 import dyachenko.kotlinbeginnerfilms.model.room.LocalRepository
@@ -20,9 +21,10 @@ import retrofit2.Response
 class FilmViewModel : ViewModel(), CoroutineScope by MainScope() {
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
     var resourceProvider: ResourceProvider? = null
-    private val historyRepository: LocalRepository = LocalRepositoryImpl(getHistoryDao())
+    private val historyRepository: LocalRepository =
+        LocalRepositoryImpl(getHistoryDao(), getNoteDao())
 
-    private val callback = object : Callback<Film> {
+    private val callbackForGetFilm = object : Callback<Film> {
         override fun onResponse(call: Call<Film>, response: Response<Film>) {
             val film = response.body()
             liveDataToObserve.value = if (response.isSuccessful && film != null) {
@@ -43,7 +45,7 @@ class FilmViewModel : ViewModel(), CoroutineScope by MainScope() {
 
     fun getFilmFromServer(filmId: Int) {
         liveDataToObserve.value = AppState.Loading
-        RemoteDataSource().getFilm(filmId, callback)
+        RemoteDataSource().getFilm(filmId, callbackForGetFilm)
     }
 
     fun saveFilmToDB(film: Film) {

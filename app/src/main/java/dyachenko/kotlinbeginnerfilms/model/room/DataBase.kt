@@ -6,13 +6,15 @@ import androidx.room.TypeConverters
 
 @Database(
     entities = [
-        HistoryEntity::class
+        HistoryEntity::class,
+        NoteEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(DataConverter::class)
-abstract class HistoryDataBase : RoomDatabase() {
+abstract class DataBase : RoomDatabase() {
 
     abstract fun historyDao(): HistoryDao
+    abstract fun noteDao(): NoteDao
 }

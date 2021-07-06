@@ -8,18 +8,18 @@ import dyachenko.kotlinbeginnerfilms.model.room.LocalRepository
 import dyachenko.kotlinbeginnerfilms.model.room.LocalRepositoryImpl
 import kotlinx.coroutines.*
 
-class HistoryViewModel : ViewModel(), CoroutineScope by MainScope() {
+class NotesViewModel : ViewModel(), CoroutineScope by MainScope() {
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
     private val historyRepository: LocalRepository =
         LocalRepositoryImpl(getHistoryDao(), getNoteDao())
 
     fun getLiveData() = liveDataToObserve
 
-    fun getAllHistory() {
+    fun getNotesByFilmId(filmId: Int) {
         liveDataToObserve.value = AppState.Loading
         launch {
-            val job = async(Dispatchers.IO) { historyRepository.getAllHistory() }
-            liveDataToObserve.value = AppState.SuccessHistory(job.await())
+            val job = async(Dispatchers.IO) { historyRepository.getNotesByFilmId(filmId) }
+            liveDataToObserve.value = AppState.SuccessNotes(job.await())
         }
     }
 }

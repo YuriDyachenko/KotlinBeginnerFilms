@@ -2,6 +2,8 @@ package dyachenko.kotlinbeginnerfilms
 
 import android.view.Menu
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,6 +23,19 @@ fun Menu.hideItem(id: Int) {
             it.isVisible = false
         }
     }
+}
+
+fun Menu.hideItems(vararg ids: Int) {
+    for (id in ids) {
+        hideItem(id)
+    }
+}
+
+fun FragmentManager.addFragmentWithBackStack(fragment: Fragment) = this.apply {
+    beginTransaction()
+        .add(R.id.container, fragment)
+        .addToBackStack(null)
+        .commit()
 }
 
 fun View.show() {

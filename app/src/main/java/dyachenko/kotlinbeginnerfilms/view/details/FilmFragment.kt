@@ -11,6 +11,8 @@ import dyachenko.kotlinbeginnerfilms.databinding.FilmFragmentBinding
 import dyachenko.kotlinbeginnerfilms.model.Film
 import dyachenko.kotlinbeginnerfilms.model.RemoteDataSource.Companion.IMAGE_SITE
 import dyachenko.kotlinbeginnerfilms.view.ResourceProvider
+import dyachenko.kotlinbeginnerfilms.view.note.NoteFragment
+import dyachenko.kotlinbeginnerfilms.view.notes.NotesFragment
 import dyachenko.kotlinbeginnerfilms.viewmodel.AppState
 import dyachenko.kotlinbeginnerfilms.viewmodel.FilmViewModel
 
@@ -25,6 +27,8 @@ class FilmFragment : Fragment() {
     private val filmId: Int by lazy {
         arguments?.getInt(ARG_FILM_ID) ?: NO_ID
     }
+
+    private var filmTitle: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +52,7 @@ class FilmFragment : Fragment() {
 
     private fun setData(film: Film) = with(binding) {
         with(film) {
+            filmTitle = title
             val text = "$title\n$overview\n\n$popularity\n$adult"
             filmDetailsTextView.text = text
             Picasso
@@ -73,7 +78,7 @@ class FilmFragment : Fragment() {
                     getString(R.string.reload_msg),
                     { getData() })
             }
-            is AppState.SuccessHistory -> {
+            else -> {
             }
         }
     }
@@ -89,20 +94,43 @@ class FilmFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.hideItem(R.id.action_settings)
-        menu.hideItem(R.id.action_history)
+        inflater.inflate(R.menu.menu_film, menu)
+        menu.hideItems(
+            R.id.action_settings,
+            R.id.action_history
+        )
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_add_note -> {
+                activity?.supportFragmentManager?.addFragmentWithBackStack(
+                    NoteFragment.newInstance(
+                        filmId,
+                        filmTitle
+                    )
+                )
+                true
+            }
+            R.id.action_notes -> {
+                activity?.supportFragmentManager?.addFragmentWithBackStack(
+                    NotesFragment.newInstance(filmId)
+                )
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     companion object {
         private const val ARG_FILM_ID = "ARG_FILM_ID"
         const val NO_ID = 0
 
-        fun newInstance(filmId: Int) =
-            FilmFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_FILM_ID, filmId)
-                }
+        fun newInstance(filmId: Int) = FilmFragment().apply {
+            arguments = Bundle().apply {
+                putInt(ARG_FILM_ID, filmId)
             }
+        }
     }
 }
