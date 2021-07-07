@@ -8,7 +8,9 @@ import dyachenko.kotlinbeginnerfilms.R
 import dyachenko.kotlinbeginnerfilms.databinding.ContactsItemBinding
 import dyachenko.kotlinbeginnerfilms.model.Contact
 
-class ContactsAdapter :
+class ContactsAdapter(
+    private var onItemViewClickListener: ContactsFragment.OnItemViewClickListener?
+) :
     RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
     private var contacts: List<Contact> = listOf()
 
@@ -28,6 +30,10 @@ class ContactsAdapter :
 
     override fun getItemCount() = contacts.size
 
+    fun removeListeners() {
+        onItemViewClickListener = null
+    }
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ContactsItemBinding.bind(view)
 
@@ -35,6 +41,8 @@ class ContactsAdapter :
             itemView.apply {
                 val text = "${contact.name}: ${hidePhoneNumber(contact.phone)}"
                 contactsItemTextView.text = text
+
+                setOnClickListener { onItemViewClickListener?.onItemViewClick(contact.phone) }
             }
         }
     }
@@ -42,9 +50,13 @@ class ContactsAdapter :
     private fun hidePhoneNumber(phone: String?): String? {
         phone?.let {
             return if (HIDE_PHONE_NUMBER) {
-                StringBuilder(phone.substring(0, 5))
-                    .append(HIDE_VALUE)
-                    .toString()
+                StringBuilder(
+                    if (phone.length >= 5) {
+                        phone.substring(0, 5)
+                    } else {
+                        phone
+                    }
+                ).append(HIDE_VALUE).toString()
             } else {
                 phone
             }

@@ -22,4 +22,6 @@
     <string name="contacts_title">Contacts</string>
     <string name="permission_error_msg">Need to allow permission</string>
     <string name="permission_reload_msg">Try again</string>
+    <string name="call_msg">Call</string>
+    <string name="error_title">Stack Trace</string>
 </resources>

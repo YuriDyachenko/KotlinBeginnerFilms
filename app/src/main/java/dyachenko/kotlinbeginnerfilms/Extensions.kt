@@ -3,8 +3,12 @@ package dyachenko.kotlinbeginnerfilms
 import android.view.Menu
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
+import dyachenko.kotlinbeginnerfilms.view.error.ErrorFragment
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,11 +35,26 @@ fun Menu.hideItems(vararg ids: Int) {
     }
 }
 
+fun Throwable.printStackTraceToString(): String {
+    val stringWriter = StringWriter()
+    this.printStackTrace(PrintWriter(stringWriter))
+    return stringWriter.toString()
+}
+
 fun FragmentManager.addFragmentWithBackStack(fragment: Fragment) = this.apply {
     beginTransaction()
         .add(R.id.container, fragment)
         .addToBackStack(null)
         .commit()
+}
+
+fun FragmentActivity.showFragment(fragment: Fragment): Boolean {
+    this.supportFragmentManager.addFragmentWithBackStack(fragment)
+    return true
+}
+
+fun FragmentActivity.showError(e: Throwable) {
+    this.showFragment(ErrorFragment.newInstance(e.printStackTraceToString()))
 }
 
 fun View.show() {
