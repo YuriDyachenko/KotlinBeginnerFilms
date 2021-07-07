@@ -28,8 +28,6 @@ class FilmFragment : Fragment() {
         arguments?.getInt(ARG_FILM_ID) ?: NO_ID
     }
 
-    private var filmTitle: String? = null
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,9 +50,8 @@ class FilmFragment : Fragment() {
 
     private fun setData(film: Film) = with(binding) {
         with(film) {
-            filmTitle = title
-            val text = "$title\n$overview\n\n$popularity\n$adult"
-            filmDetailsTextView.text = text
+            filmTitleTextView.text = title
+            filmDetailsTextView.text = overview
             Picasso
                 .get()
                 .load("${IMAGE_SITE}$poster_path")
@@ -108,7 +105,7 @@ class FilmFragment : Fragment() {
                 activity?.supportFragmentManager?.addFragmentWithBackStack(
                     NoteFragment.newInstance(
                         filmId,
-                        filmTitle
+                        binding.filmTitleTextView.text.toString()
                     )
                 )
                 true

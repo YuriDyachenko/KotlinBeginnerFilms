@@ -23,11 +23,14 @@ class FilmsFragment : Fragment() {
     private var _binding: FilmsFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private var isUploading = false
+
     private val viewModel: FilmsViewModel by lazy {
         ViewModelProvider(this).get(FilmsViewModel::class.java)
     }
 
     private val adapter = FilmsAdapter(object : OnItemViewClickListener {
+
         override fun onItemViewClick(film: Film) {
             activity?.supportFragmentManager?.apply {
                 beginTransaction()
@@ -36,6 +39,14 @@ class FilmsFragment : Fragment() {
                     .commit()
             }
         }
+
+    }, object : OnNeedLoadNewPageListener {
+
+        override fun onNeedLoadNewPage() {
+            isUploading = true
+            getData()
+        }
+
     })
 
     private val onListTypeChanging = object : FilmsListTypeChanging {
@@ -67,22 +78,18 @@ class FilmsFragment : Fragment() {
             val typeOrdinal =
                 it.getSharedPreferences(Settings.PREFERENCE_NAME, Context.MODE_PRIVATE)
                     .getInt(Settings.FILMS_LIST_TYPE_NAME, FilmsListType.POPULAR.ordinal)
-            Settings.FILMS_LIST_TYPE = when (typeOrdinal) {
-                FilmsListType.TOP_RATED.ordinal -> FilmsListType.TOP_RATED
-                FilmsListType.UPCOMING.ordinal -> FilmsListType.UPCOMING
-                FilmsListType.NOW_PLAYING.ordinal -> FilmsListType.NOW_PLAYING
-                else -> FilmsListType.POPULAR
-            }
+            Settings.FILMS_LIST_TYPE = FilmsListType.byOrdinal(typeOrdinal)
         }
     }
 
     private fun getData() {
-        viewModel.getFilmsFromServer()
+        viewModel.getFilmsFromServer(isUploading)
     }
 
     private fun renderData(appState: AppState) = with(binding) {
         when (appState) {
             is AppState.Success -> {
+                isUploading = false
                 filmsLoadingLayout.hide()
                 filmsTypeTextView.text = getString(Settings.FILMS_LIST_TYPE.rId)
                 adapter.setFilms(appState.films)
@@ -103,12 +110,16 @@ class FilmsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        adapter.removeListener()
+        adapter.removeListeners()
         _binding = null
     }
 
     interface OnItemViewClickListener {
         fun onItemViewClick(film: Film)
+    }
+
+    interface OnNeedLoadNewPageListener {
+        fun onNeedLoadNewPage()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

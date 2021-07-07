@@ -11,7 +11,10 @@ import dyachenko.kotlinbeginnerfilms.model.Film
 import dyachenko.kotlinbeginnerfilms.model.RemoteDataSource.Companion.IMAGE_SITE
 
 
-class FilmsAdapter(private var onItemViewClickListener: FilmsFragment.OnItemViewClickListener?) :
+class FilmsAdapter(
+    private var onItemViewClickListener: FilmsFragment.OnItemViewClickListener?,
+    private var onNeedLoadNewPageListener: FilmsFragment.OnNeedLoadNewPageListener?
+) :
     RecyclerView.Adapter<FilmsAdapter.ViewHolder>() {
     private var films: List<Film> = listOf()
 
@@ -27,12 +30,17 @@ class FilmsAdapter(private var onItemViewClickListener: FilmsFragment.OnItemView
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(films[position])
+
+        if (itemCount - position == POSITIONS_LEFT_TO_NEED_LOAD_PAGE) {
+            onNeedLoadNewPageListener?.onNeedLoadNewPage()
+        }
     }
 
     override fun getItemCount() = films.size
 
-    fun removeListener() {
+    fun removeListeners() {
         onItemViewClickListener = null
+        onNeedLoadNewPageListener = null
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -50,5 +58,9 @@ class FilmsAdapter(private var onItemViewClickListener: FilmsFragment.OnItemView
                 setOnClickListener { onItemViewClickListener?.onItemViewClick(film) }
             }
         }
+    }
+
+    companion object {
+        const val POSITIONS_LEFT_TO_NEED_LOAD_PAGE = 3
     }
 }

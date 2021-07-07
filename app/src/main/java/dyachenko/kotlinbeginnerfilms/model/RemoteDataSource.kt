@@ -32,10 +32,6 @@ class RemoteDataSource {
         filmApi.getFilm(id, FILM_API_KEY, RU_LANG).enqueue(callback)
     }
 
-    fun getFirstPage(callback: Callback<PageDTO>) {
-        pageApi.getFirstPage(getType(), FILM_API_KEY, RU_LANG).enqueue(callback)
-    }
-
     fun getNextPage(page: Int, callback: Callback<PageDTO>) {
         pageApi.getNextPage(getType(), FILM_API_KEY, RU_LANG, page).enqueue(callback)
     }
@@ -44,7 +40,7 @@ class RemoteDataSource {
 
     companion object {
         const val FIRST_PAGE = 1
-        const val MAX_PAGE = 5
+        const val FILMS_ON_PAGE = 20
         const val IMAGE_SITE = "https://image.tmdb.org/t/p/w500"
         const val TYPE_POPULAR = "popular"
         const val TYPE_TOP_RATED = "top_rated"
