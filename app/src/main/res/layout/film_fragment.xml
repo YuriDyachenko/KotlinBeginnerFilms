@@ -7,6 +7,7 @@
     android:background="@color/white"
     android:clickable="true"
     android:focusable="true"
+    android:orientation="vertical"
     tools:context=".view.details.FilmFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -16,12 +17,25 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
             android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/film_title_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/purple_500"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/film_details_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:scaleType="fitXY" />
 
             <TextView
@@ -31,7 +45,8 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:textColor="@color/purple_700"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:text="About film" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
 
@@ -39,7 +54,6 @@
         android:id="@+id/film_loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:visibility="gone"
         tools:visibility="visible">
 

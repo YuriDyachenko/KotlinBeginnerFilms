@@ -1,7 +1,22 @@
 <resources>
-    <string name="app_name">Kotlin Beginner Films 7.0</string>
+    <string name="app_name">Kotlin Beginner Films 8.0</string>
     <string name="error_msg">Error</string>
     <string name="reload_msg">Reload</string>
     <string name="error_server_msg">Server Error</string>
     <string name="error_request_msg">Request Error</string>
+    <string name="type_popular">Popular</string>
+    <string name="type_upcoming">Upcoming</string>
+    <string name="type_top_rated">Top Rated</string>
+    <string name="type_now_playing">Now Playing</string>
+    <string name="action_settings">Settings</string>
+    <string name="settings_title">Settings</string>
+    <string name="list_type_title">List type:</string>
+    <string name="apply">Apply</string>
+    <string name="action_history">History</string>
+    <string name="history_title">History</string>
+    <string name="action_add_note">Add note</string>
+    <string name="action_notes">View notes</string>
+    <string name="add_note_title">Add note about film</string>
+    <string name="save">Save</string>
+    <string name="notes_title">Notes about film</string>
 </resources>

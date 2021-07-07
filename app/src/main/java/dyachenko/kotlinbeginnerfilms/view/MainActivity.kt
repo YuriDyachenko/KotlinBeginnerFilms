@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, FilmsFragment.newInstance())
-                .commitNow()
+                .commit()
         }
     }
 }

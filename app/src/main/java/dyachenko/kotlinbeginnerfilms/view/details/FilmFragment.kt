@@ -1,21 +1,18 @@
 package dyachenko.kotlinbeginnerfilms.view.details
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
-import dyachenko.kotlinbeginnerfilms.R
+import dyachenko.kotlinbeginnerfilms.*
 import dyachenko.kotlinbeginnerfilms.databinding.FilmFragmentBinding
-import dyachenko.kotlinbeginnerfilms.hide
 import dyachenko.kotlinbeginnerfilms.model.Film
 import dyachenko.kotlinbeginnerfilms.model.RemoteDataSource.Companion.IMAGE_SITE
-import dyachenko.kotlinbeginnerfilms.show
-import dyachenko.kotlinbeginnerfilms.showSnackBar
 import dyachenko.kotlinbeginnerfilms.view.ResourceProvider
+import dyachenko.kotlinbeginnerfilms.view.note.NoteFragment
+import dyachenko.kotlinbeginnerfilms.view.notes.NotesFragment
 import dyachenko.kotlinbeginnerfilms.viewmodel.AppState
 import dyachenko.kotlinbeginnerfilms.viewmodel.FilmViewModel
 
@@ -53,13 +50,14 @@ class FilmFragment : Fragment() {
 
     private fun setData(film: Film) = with(binding) {
         with(film) {
-            val text = "$title\n$overview\n\n$popularity\n$adult"
-            filmDetailsTextView.text = text
+            filmTitleTextView.text = title
+            filmDetailsTextView.text = overview
             Picasso
                 .get()
                 .load("${IMAGE_SITE}$poster_path")
                 .into(filmDetailsImageView)
         }
+        viewModel.saveFilmToDB(film)
     }
 
     private fun renderData(appState: AppState?) = with(binding) {
@@ -77,6 +75,8 @@ class FilmFragment : Fragment() {
                     getString(R.string.reload_msg),
                     { getData() })
             }
+            else -> {
+            }
         }
     }
 
@@ -85,15 +85,49 @@ class FilmFragment : Fragment() {
         _binding = null
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_film, menu)
+        menu.hideItems(
+            R.id.action_settings,
+            R.id.action_history
+        )
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_add_note -> {
+                activity?.supportFragmentManager?.addFragmentWithBackStack(
+                    NoteFragment.newInstance(
+                        filmId,
+                        binding.filmTitleTextView.text.toString()
+                    )
+                )
+                true
+            }
+            R.id.action_notes -> {
+                activity?.supportFragmentManager?.addFragmentWithBackStack(
+                    NotesFragment.newInstance(filmId)
+                )
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     companion object {
         private const val ARG_FILM_ID = "ARG_FILM_ID"
         const val NO_ID = 0
 
-        fun newInstance(filmId: Int) =
-            FilmFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_FILM_ID, filmId)
-                }
+        fun newInstance(filmId: Int) = FilmFragment().apply {
+            arguments = Bundle().apply {
+                putInt(ARG_FILM_ID, filmId)
             }
+        }
     }
 }
