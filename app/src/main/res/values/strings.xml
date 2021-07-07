@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kotlin Beginner Films 8.0</string>
+    <string name="app_name">Kotlin Beginner Films 9.0</string>
     <string name="error_msg">Error</string>
     <string name="reload_msg">Reload</string>
     <string name="error_server_msg">Server Error</string>
@@ -19,4 +19,7 @@
     <string name="add_note_title">Add note about film</string>
     <string name="save">Save</string>
     <string name="notes_title">Notes about film</string>
+    <string name="contacts_title">Contacts</string>
+    <string name="permission_error_msg">Need to allow permission</string>
+    <string name="permission_reload_msg">Try again</string>
 </resources>

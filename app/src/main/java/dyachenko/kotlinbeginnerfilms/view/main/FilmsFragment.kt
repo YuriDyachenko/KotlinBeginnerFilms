@@ -12,6 +12,7 @@ import dyachenko.kotlinbeginnerfilms.model.Film
 import dyachenko.kotlinbeginnerfilms.model.FilmsListType
 import dyachenko.kotlinbeginnerfilms.model.FilmsListTypeChanging
 import dyachenko.kotlinbeginnerfilms.view.ResourceProvider
+import dyachenko.kotlinbeginnerfilms.view.contacts.ContactsFragment
 import dyachenko.kotlinbeginnerfilms.view.details.FilmFragment
 import dyachenko.kotlinbeginnerfilms.view.history.HistoryFragment
 import dyachenko.kotlinbeginnerfilms.view.settings.Settings
@@ -145,6 +146,12 @@ class FilmsFragment : Fragment() {
             R.id.action_history -> {
                 activity?.supportFragmentManager?.addFragmentWithBackStack(
                     HistoryFragment.newInstance()
+                )
+                true
+            }
+            R.id.action_contacts -> {
+                activity?.supportFragmentManager?.addFragmentWithBackStack(
+                    ContactsFragment.newInstance()
                 )
                 true
             }
