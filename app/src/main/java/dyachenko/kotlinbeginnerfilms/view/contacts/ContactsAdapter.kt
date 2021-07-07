@@ -33,8 +33,26 @@ class ContactsAdapter :
 
         fun bind(contact: Contact) = with(binding) {
             itemView.apply {
-                contactsItemTextView.text = contact.name
+                val text = "${contact.name}: ${hidePhoneNumber(contact.phone)}"
+                contactsItemTextView.text = text
             }
         }
+    }
+
+    private fun hidePhoneNumber(phone: String?): String? {
+        phone?.let {
+            return if (HIDE_PHONE_NUMBER) {
+                StringBuilder(phone.substring(0, 5))
+                    .append(HIDE_VALUE)
+                    .toString()
+            } else {
+                phone
+            }
+        } ?: return phone
+    }
+
+    companion object {
+        private const val HIDE_PHONE_NUMBER = true
+        private const val HIDE_VALUE = " ..."
     }
 }

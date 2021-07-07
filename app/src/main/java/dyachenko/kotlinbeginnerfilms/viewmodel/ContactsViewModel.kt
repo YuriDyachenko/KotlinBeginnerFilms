@@ -18,9 +18,10 @@ class ContactsViewModel : ViewModel(), CoroutineScope by MainScope() {
             val job = async(Dispatchers.IO) {
                 val list = mutableListOf<Contact>()
                 context?.let {
-                    val columnName = ContactsContract.Contacts.DISPLAY_NAME
+                    val columnName = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+                    val columnPhone = ContactsContract.CommonDataKinds.Phone.DATA1
                     val cursorWithContacts = it.contentResolver.query(
-                        ContactsContract.Contacts.CONTENT_URI,
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                         null,
                         null,
                         null,
@@ -28,10 +29,12 @@ class ContactsViewModel : ViewModel(), CoroutineScope by MainScope() {
                     )
                     cursorWithContacts?.let { cursor ->
                         val columnNameIndex = cursor.getColumnIndex(columnName)
+                        val columnPhoneIndex = cursor.getColumnIndex(columnPhone)
                         for (i in 0..cursor.count) {
                             if (cursor.moveToPosition(i)) {
                                 val name = cursor.getString(columnNameIndex)
-                                list.add(Contact(name))
+                                val phone = cursor.getString(columnPhoneIndex)
+                                list.add(Contact(name, phone))
                             }
                         }
                     }

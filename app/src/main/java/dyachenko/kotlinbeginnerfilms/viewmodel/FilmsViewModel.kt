@@ -18,42 +18,6 @@ class FilmsViewModel : ViewModel() {
     var resourceProvider: ResourceProvider? = null
     private val list: MutableList<Film> = mutableListOf()
 
-/*
-    fun getPageFromServer(pageNumber: Int) {
-        val callbackForGetPage = object : Callback<PageDTO> {
-            override fun onResponse(call: Call<PageDTO>, response: Response<PageDTO>) {
-                val page = response.body()
-                if (response.isSuccessful && page != null) {
-                    if (pageNumber == FIRST_PAGE) {
-                        list.clear()
-                    }
-                    list.addAll(page.results.toList())
-                    val pagesToRead = min(page.total_pages ?: FIRST_PAGE, MAX_PAGE)
-                    if (pageNumber < pagesToRead) {
-                        getPageFromServer(pageNumber + 1)
-                    } else {
-                        liveDataToObserve.value = AppState.Success(list)
-                    }
-                } else {
-                    liveDataToObserve.value =
-                        AppState.Error(Throwable(getString(R.string.error_server_msg)))
-                }
-            }
-
-            override fun onFailure(call: Call<PageDTO>, t: Throwable) {
-                liveDataToObserve.value = AppState.Error(
-                    Throwable(t.message ?: getString(R.string.error_request_msg))
-                )
-            }
-        }
-        if (pageNumber == FIRST_PAGE) {
-            RemoteDataSource().getFirstPage(callbackForGetPage)
-        } else {
-            RemoteDataSource().getNextPage(pageNumber, callbackForGetPage)
-        }
-    }
-*/
-
     private val callbackForGetPage = object : Callback<PageDTO> {
 
         override fun onResponse(call: Call<PageDTO>, response: Response<PageDTO>) {
