@@ -9,15 +9,10 @@ import dyachenko.kotlinbeginnerfilms.R
 import dyachenko.kotlinbeginnerfilms.databinding.SettingsFragmentBinding
 import dyachenko.kotlinbeginnerfilms.hideItems
 import dyachenko.kotlinbeginnerfilms.model.FilmsListType
-import dyachenko.kotlinbeginnerfilms.model.FilmsListTypeChanging
 
 class SettingsFragment : Fragment() {
     private var _binding: SettingsFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val onListTypeChanging: FilmsListTypeChanging by lazy {
-        arguments?.getSerializable(ARG_TYPE_CHANGING) as FilmsListTypeChanging
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +39,6 @@ class SettingsFragment : Fragment() {
             }
             writeSettings()
             activity?.supportFragmentManager?.popBackStack()
-            onListTypeChanging.changed()
         }
     }
 
@@ -76,12 +70,6 @@ class SettingsFragment : Fragment() {
     }
 
     companion object {
-        private const val ARG_TYPE_CHANGING = "ARG_TYPE_CHANGING"
-
-        fun newInstance(onListTypeChanging: FilmsListTypeChanging) = SettingsFragment().apply {
-            arguments = Bundle().apply {
-                putSerializable(ARG_TYPE_CHANGING, onListTypeChanging)
-            }
-        }
+        fun newInstance() = SettingsFragment()
     }
 }
