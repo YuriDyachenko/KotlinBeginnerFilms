@@ -1,6 +1,7 @@
 package dyachenko.kotlinbeginnerfilms.view.main
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -10,8 +11,8 @@ import dyachenko.kotlinbeginnerfilms.*
 import dyachenko.kotlinbeginnerfilms.databinding.FilmsFragmentBinding
 import dyachenko.kotlinbeginnerfilms.model.Film
 import dyachenko.kotlinbeginnerfilms.model.FilmsListType
-import dyachenko.kotlinbeginnerfilms.model.FilmsListTypeChanging
 import dyachenko.kotlinbeginnerfilms.view.ResourceProvider
+import dyachenko.kotlinbeginnerfilms.view.contacts.ContactsFragment
 import dyachenko.kotlinbeginnerfilms.view.details.FilmFragment
 import dyachenko.kotlinbeginnerfilms.view.history.HistoryFragment
 import dyachenko.kotlinbeginnerfilms.view.settings.Settings
@@ -49,11 +50,11 @@ class FilmsFragment : Fragment() {
 
     })
 
-    private val onListTypeChanging = object : FilmsListTypeChanging {
-        override fun changed() {
+    private val onSharedPreferenceChangeListener =
+        SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
+            readSettings()
             getData()
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,11 +66,18 @@ class FilmsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         readSettings()
+        activity?.getSharedPreferences(Settings.PREFERENCE_NAME, Context.MODE_PRIVATE)
+            ?.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener)
+
         binding.filmsRecyclerView.adapter = adapter
+        binding.filmsRecyclerView.setHasFixedSize(true)
+
         val observer = Observer<AppState> { renderData(it) }
         viewModel.resourceProvider = ResourceProvider(requireContext())
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
+
         getData()
     }
 
@@ -110,6 +118,8 @@ class FilmsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        activity?.getSharedPreferences(Settings.PREFERENCE_NAME, Context.MODE_PRIVATE)
+            ?.unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener)
         adapter.removeListeners()
         _binding = null
     }
@@ -135,18 +145,13 @@ class FilmsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
-                activity?.supportFragmentManager?.addFragmentWithBackStack(
-                    SettingsFragment.newInstance(
-                        onListTypeChanging
-                    )
-                )
-                true
+                activity?.showFragment(SettingsFragment.newInstance()) ?: true
             }
             R.id.action_history -> {
-                activity?.supportFragmentManager?.addFragmentWithBackStack(
-                    HistoryFragment.newInstance()
-                )
-                true
+                activity?.showFragment(HistoryFragment.newInstance()) ?: true
+            }
+            R.id.action_contacts -> {
+                activity?.showFragment(ContactsFragment.newInstance()) ?: true
             }
             else -> super.onOptionsItemSelected(item)
         }

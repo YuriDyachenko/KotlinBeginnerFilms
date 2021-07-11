@@ -102,19 +102,15 @@ class FilmFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_add_note -> {
-                activity?.supportFragmentManager?.addFragmentWithBackStack(
+                activity?.showFragment(
                     NoteFragment.newInstance(
                         filmId,
                         binding.filmTitleTextView.text.toString()
                     )
-                )
-                true
+                ) ?: true
             }
             R.id.action_notes -> {
-                activity?.supportFragmentManager?.addFragmentWithBackStack(
-                    NotesFragment.newInstance(filmId)
-                )
-                true
+                activity?.showFragment(NotesFragment.newInstance(filmId)) ?: true
             }
             else -> super.onOptionsItemSelected(item)
         }
