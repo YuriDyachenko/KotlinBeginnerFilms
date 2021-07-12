@@ -24,4 +24,7 @@
     <string name="permission_reload_msg">Try again</string>
     <string name="call_msg">Call</string>
     <string name="error_title">Stack Trace</string>
+    <string name="google_maps_key">AIzaSyBGJV_Ml5Z8g20-e4C9s2c2gWcDxRii5Io</string>
+    <string name="action_map">Google Maps</string>
+    <string name="action_contacts">Contacts</string>
 </resources>

@@ -76,12 +76,7 @@ class NotesFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.hideItems(
-            R.id.action_settings,
-            R.id.action_history,
-            R.id.action_add_note,
-            R.id.action_notes
-        )
+        menu.hideAllItems()
         super.onCreateOptionsMenu(menu, inflater)
     }
 

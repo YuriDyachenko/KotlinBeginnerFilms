@@ -145,13 +145,16 @@ class FilmsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
-                activity?.showFragment(SettingsFragment.newInstance()) ?: true
+                activity?.showFragment(SettingsFragment.newInstance())
+                return true
             }
             R.id.action_history -> {
-                activity?.showFragment(HistoryFragment.newInstance()) ?: true
+                activity?.showFragment(HistoryFragment.newInstance())
+                return true
             }
             R.id.action_contacts -> {
-                activity?.showFragment(ContactsFragment.newInstance()) ?: true
+                activity?.showFragment(ContactsFragment.newInstance())
+                return true
             }
             else -> super.onOptionsItemSelected(item)
         }

@@ -72,10 +72,7 @@ class HistoryFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.hideItems(
-            R.id.action_settings,
-            R.id.action_history
-        )
+        menu.hideAllItems()
         super.onCreateOptionsMenu(menu, inflater)
     }
 

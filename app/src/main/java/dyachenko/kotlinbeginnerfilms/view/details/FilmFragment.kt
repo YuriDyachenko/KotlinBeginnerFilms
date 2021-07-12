@@ -94,7 +94,9 @@ class FilmFragment : Fragment() {
         inflater.inflate(R.menu.menu_film, menu)
         menu.hideItems(
             R.id.action_settings,
-            R.id.action_history
+            R.id.action_history,
+            R.id.action_contacts,
+            R.id.action_map
         )
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -107,10 +109,12 @@ class FilmFragment : Fragment() {
                         filmId,
                         binding.filmTitleTextView.text.toString()
                     )
-                ) ?: true
+                )
+                return true
             }
             R.id.action_notes -> {
-                activity?.showFragment(NotesFragment.newInstance(filmId)) ?: true
+                activity?.showFragment(NotesFragment.newInstance(filmId))
+                return true
             }
             else -> super.onOptionsItemSelected(item)
         }
