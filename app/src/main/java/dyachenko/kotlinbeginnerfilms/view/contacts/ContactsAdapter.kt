@@ -51,8 +51,8 @@ class ContactsAdapter(
         phone?.let {
             return if (HIDE_PHONE_NUMBER) {
                 StringBuilder(
-                    if (phone.length >= 5) {
-                        phone.substring(0, 5)
+                    if (phone.length >= HIDE_LENGTH_FROM) {
+                        phone.substring(HIDE_START_POSITION, HIDE_LENGTH_FROM)
                     } else {
                         phone
                     }
@@ -66,5 +66,7 @@ class ContactsAdapter(
     companion object {
         private const val HIDE_PHONE_NUMBER = true
         private const val HIDE_VALUE = " ..."
+        private const val HIDE_LENGTH_FROM = 5
+        private const val HIDE_START_POSITION = 0
     }
 }

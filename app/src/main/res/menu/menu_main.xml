@@ -17,6 +17,12 @@
     <item
         android:id="@+id/action_contacts"
         android:icon="@android:drawable/ic_menu_call"
-        android:title="@string/action_history"
+        android:title="@string/action_contacts"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_maps"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:title="@string/action_maps"
         app:showAsAction="ifRoom" />
 </menu>

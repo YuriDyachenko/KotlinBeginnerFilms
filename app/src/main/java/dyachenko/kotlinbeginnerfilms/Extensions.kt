@@ -35,6 +35,16 @@ fun Menu.hideItems(vararg ids: Int) {
     }
 }
 
+fun Menu.hideAllItems() {
+    for (i: Int in 0 until this.size()) {
+        this.getItem(i).let {
+            if (it.isVisible) {
+                it.isVisible = false
+            }
+        }
+    }
+}
+
 fun Throwable.printStackTraceToString(): String {
     val stringWriter = StringWriter()
     this.printStackTrace(PrintWriter(stringWriter))
@@ -48,9 +58,8 @@ fun FragmentManager.addFragmentWithBackStack(fragment: Fragment) = this.apply {
         .commit()
 }
 
-fun FragmentActivity.showFragment(fragment: Fragment): Boolean {
+fun FragmentActivity.showFragment(fragment: Fragment) {
     this.supportFragmentManager.addFragmentWithBackStack(fragment)
-    return true
 }
 
 fun FragmentActivity.showError(e: Throwable) {

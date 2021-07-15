@@ -158,11 +158,7 @@ class ContactsFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.hideItems(
-            R.id.action_settings,
-            R.id.action_history,
-            R.id.action_contacts
-        )
+        menu.hideAllItems()
         super.onCreateOptionsMenu(menu, inflater)
     }
 

@@ -7,7 +7,7 @@ import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import dyachenko.kotlinbeginnerfilms.R
 import dyachenko.kotlinbeginnerfilms.databinding.SettingsFragmentBinding
-import dyachenko.kotlinbeginnerfilms.hideItems
+import dyachenko.kotlinbeginnerfilms.hideAllItems
 import dyachenko.kotlinbeginnerfilms.model.FilmsListType
 
 class SettingsFragment : Fragment() {
@@ -62,10 +62,7 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.hideItems(
-            R.id.action_settings,
-            R.id.action_history
-        )
+        menu.hideAllItems()
         super.onCreateOptionsMenu(menu, inflater)
     }
 

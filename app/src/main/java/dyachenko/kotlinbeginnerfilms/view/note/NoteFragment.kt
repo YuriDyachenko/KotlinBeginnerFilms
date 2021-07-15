@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import dyachenko.kotlinbeginnerfilms.R
 import dyachenko.kotlinbeginnerfilms.databinding.NoteFragmentBinding
-import dyachenko.kotlinbeginnerfilms.hideItems
+import dyachenko.kotlinbeginnerfilms.hideAllItems
 import dyachenko.kotlinbeginnerfilms.viewmodel.NoteViewModel
 
 class NoteFragment : Fragment() {
@@ -60,12 +59,7 @@ class NoteFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.hideItems(
-            R.id.action_settings,
-            R.id.action_history,
-            R.id.action_add_note,
-            R.id.action_notes
-        )
+        menu.hideAllItems()
         super.onCreateOptionsMenu(menu, inflater)
     }
 

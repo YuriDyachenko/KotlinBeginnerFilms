@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kotlin Beginner Films 9.0</string>
+    <string name="app_name">Kotlin Beginner Films 10.0</string>
     <string name="error_msg">Error</string>
     <string name="reload_msg">Reload</string>
     <string name="error_server_msg">Server Error</string>
@@ -24,4 +24,8 @@
     <string name="permission_reload_msg">Try again</string>
     <string name="call_msg">Call</string>
     <string name="error_title">Stack Trace</string>
+    <string name="action_maps">Google Maps</string>
+    <string name="action_contacts">Contacts</string>
+    <string name="button_search_map">Search</string>
+    <string name="search_address">Search address</string>
 </resources>
