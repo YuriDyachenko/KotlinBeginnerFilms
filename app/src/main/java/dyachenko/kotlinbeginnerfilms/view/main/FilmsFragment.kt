@@ -15,6 +15,7 @@ import dyachenko.kotlinbeginnerfilms.view.ResourceProvider
 import dyachenko.kotlinbeginnerfilms.view.contacts.ContactsFragment
 import dyachenko.kotlinbeginnerfilms.view.details.FilmFragment
 import dyachenko.kotlinbeginnerfilms.view.history.HistoryFragment
+import dyachenko.kotlinbeginnerfilms.view.maps.MapsFragment
 import dyachenko.kotlinbeginnerfilms.view.settings.Settings
 import dyachenko.kotlinbeginnerfilms.view.settings.SettingsFragment
 import dyachenko.kotlinbeginnerfilms.viewmodel.AppState
@@ -154,6 +155,10 @@ class FilmsFragment : Fragment() {
             }
             R.id.action_contacts -> {
                 activity?.showFragment(ContactsFragment.newInstance())
+                return true
+            }
+            R.id.action_maps -> {
+                activity?.showFragment(MapsFragment.newInstance())
                 return true
             }
             else -> super.onOptionsItemSelected(item)

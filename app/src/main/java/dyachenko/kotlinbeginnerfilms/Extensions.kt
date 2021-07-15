@@ -58,9 +58,8 @@ fun FragmentManager.addFragmentWithBackStack(fragment: Fragment) = this.apply {
         .commit()
 }
 
-fun FragmentActivity.showFragment(fragment: Fragment): Boolean {
+fun FragmentActivity.showFragment(fragment: Fragment) {
     this.supportFragmentManager.addFragmentWithBackStack(fragment)
-    return true
 }
 
 fun FragmentActivity.showError(e: Throwable) {

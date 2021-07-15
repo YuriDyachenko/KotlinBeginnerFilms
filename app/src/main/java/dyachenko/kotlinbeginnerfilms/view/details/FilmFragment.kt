@@ -96,7 +96,7 @@ class FilmFragment : Fragment() {
             R.id.action_settings,
             R.id.action_history,
             R.id.action_contacts,
-            R.id.action_map
+            R.id.action_maps
         )
         super.onCreateOptionsMenu(menu, inflater)
     }
