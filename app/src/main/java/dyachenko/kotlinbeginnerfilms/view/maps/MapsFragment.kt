@@ -37,14 +37,17 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope() {
                 val job = async(Dispatchers.IO) {
                     geoCoder.getFromLocation(
                         location.latitude,
-                        location.longitude, 1
+                        location.longitude,
+                        GEO_MAX_RESULTS
                     )
                 }
                 try {
                     val addresses = job.await()
-                    if (addresses.size > 0) {
+                    if (addresses.isNotEmpty()) {
                         binding.addressTextView.post {
-                            binding.addressTextView.text = addresses[0].getAddressLine(0)
+                            binding.addressTextView.text = addresses
+                                .first()
+                                .getAddressLine(FIRST_ADDRESS_INDEX)
                         }
                     }
                 } catch (e: IOException) {
@@ -75,11 +78,11 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope() {
             val searchText = binding.searchAddressEditText.text.toString()
             launch {
                 val job = async(Dispatchers.IO) {
-                    geoCoder.getFromLocationName(searchText, 1)
+                    geoCoder.getFromLocationName(searchText, GEO_MAX_RESULTS)
                 }
                 try {
                     val addresses = job.await()
-                    if (addresses.size > 0) {
+                    if (addresses.isNotEmpty()) {
                         goToAddress(addresses, it, searchText)
                     }
                 } catch (e: IOException) {
@@ -90,13 +93,14 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope() {
     }
 
     private fun goToAddress(addresses: MutableList<Address>, view: View, searchText: String) {
+        val firstAddress = addresses.first()
         val location = LatLng(
-            addresses[0].latitude,
-            addresses[0].longitude
+            firstAddress.latitude,
+            firstAddress.longitude
         )
         view.post {
             setMarker(location, searchText)
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, ZOOM_VALUE))
         }
     }
 
@@ -124,6 +128,10 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope() {
     }
 
     companion object {
+        private const val FIRST_ADDRESS_INDEX = 0
+        private const val ZOOM_VALUE = 15f
+        private const val GEO_MAX_RESULTS = 1
+
         fun newInstance() = MapsFragment()
     }
 }
