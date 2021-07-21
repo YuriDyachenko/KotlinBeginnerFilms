@@ -1,7 +1,9 @@
 package dyachenko.kotlinbeginnerfilms.app
 
 import android.app.Application
+import android.util.Log
 import androidx.room.Room
+import com.google.firebase.messaging.FirebaseMessaging
 import dyachenko.kotlinbeginnerfilms.model.room.DataBase
 import dyachenko.kotlinbeginnerfilms.model.room.HistoryDao
 import dyachenko.kotlinbeginnerfilms.model.room.NoteDao
@@ -11,6 +13,17 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         appInstance = this
+
+        logFirebaseMessagingToken()
+    }
+
+    private fun logFirebaseMessagingToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            if (it.isComplete) {
+                val token = it.result.toString()
+                Log.d(MyFirebaseMessagingService.CURRENT_TOKEN, token)
+            }
+        }
     }
 
     companion object {
