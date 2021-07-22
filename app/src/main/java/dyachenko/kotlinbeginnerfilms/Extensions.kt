@@ -1,7 +1,11 @@
 package dyachenko.kotlinbeginnerfilms
 
+import android.content.pm.PackageManager
 import android.view.Menu
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -64,6 +68,34 @@ fun FragmentActivity.showFragment(fragment: Fragment) {
 
 fun FragmentActivity.showError(e: Throwable) {
     this.showFragment(ErrorFragment.newInstance(e.printStackTraceToString()))
+}
+
+fun Fragment.registerPermissionLauncher(action: () -> Unit, checkAction: () -> Unit, view: View) =
+    registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        if (it) {
+            action()
+        } else {
+            view.showSnackBar(getString(R.string.permission_error_msg),
+                getString(R.string.permission_reload_msg),
+                { checkAction() })
+        }
+    }
+
+fun Fragment.checkPermission(
+    request: String,
+    action: () -> Unit,
+    launcher: ActivityResultLauncher<String>
+) {
+    context?.let {
+        when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(it, request) -> {
+                action()
+            }
+            else -> {
+                launcher.launch(request)
+            }
+        }
+    }
 }
 
 fun View.show() {
