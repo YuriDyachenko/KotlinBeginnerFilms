@@ -2,12 +2,10 @@ package dyachenko.kotlinbeginnerfilms.view.contacts
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -33,34 +31,36 @@ class ContactsFragment : Fragment() {
         }
     })
 
-    private val requestContactsLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) {
-                getData()
-            } else {
-                binding.contactsRootView.showSnackBar(getString(R.string.permission_error_msg),
-                    getString(R.string.permission_reload_msg),
-                    { checkContactsPermission() })
-            }
-        }
-
-    private val requestCallsLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) {
-                phoneCall()
-            } else {
-                binding.contactsRootView.showSnackBar(getString(R.string.permission_error_msg),
-                    getString(R.string.permission_reload_msg),
-                    { checkContactsPermission() })
-            }
-        }
+    private lateinit var requestContactsLauncher: ActivityResultLauncher<String>
+    private lateinit var requestCallsLauncher: ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = ContactsFragmentBinding.inflate(inflater, container, false)
+
+        requestContactsLauncher = registerPermissionLauncher(
+            { getData() },
+            { checkContactsPermission() },
+            binding.contactsRootView
+        )
+
+        requestCallsLauncher = registerPermissionLauncher(
+            { phoneCall() },
+            { checkCallsPermission() },
+            binding.contactsRootView
+        )
+
         return binding.root
+    }
+
+    private fun checkContactsPermission() {
+        checkPermission(Manifest.permission.READ_CONTACTS, { getData() }, requestContactsLauncher)
+    }
+
+    private fun checkCallsPermission() {
+        checkPermission(Manifest.permission.CALL_PHONE, { phoneCall() }, requestCallsLauncher)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,40 +69,6 @@ class ContactsFragment : Fragment() {
         val observer = Observer<AppState> { renderData(it) }
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
         checkContactsPermission()
-    }
-
-    private fun requestContactsPermission() {
-        requestContactsLauncher.launch(REQUEST_CONTACTS)
-    }
-
-    private fun requestCallsPermission() {
-        requestCallsLauncher.launch(REQUEST_CALLS)
-    }
-
-    private fun checkContactsPermission() {
-        context?.let {
-            when (PackageManager.PERMISSION_GRANTED) {
-                ContextCompat.checkSelfPermission(it, REQUEST_CONTACTS) -> {
-                    getData()
-                }
-                else -> {
-                    requestContactsPermission()
-                }
-            }
-        }
-    }
-
-    private fun checkCallsPermission() {
-        context?.let {
-            when (PackageManager.PERMISSION_GRANTED) {
-                ContextCompat.checkSelfPermission(it, REQUEST_CALLS) -> {
-                    phoneCall()
-                }
-                else -> {
-                    requestCallsPermission()
-                }
-            }
-        }
     }
 
     private fun phoneCall() {
@@ -163,9 +129,6 @@ class ContactsFragment : Fragment() {
     }
 
     companion object {
-        private const val REQUEST_CONTACTS = Manifest.permission.READ_CONTACTS
-        private const val REQUEST_CALLS = Manifest.permission.CALL_PHONE
-
         fun newInstance() = ContactsFragment()
     }
 }
