@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kotlin Beginner Films 11.0</string>
+    <string name="app_name">Kotlin Beginner Films 12.0</string>
     <string name="error_msg">Error</string>
     <string name="reload_msg">Reload</string>
     <string name="error_server_msg">Server Error</string>
